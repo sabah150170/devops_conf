@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Define environment variables
-	GITHUB_CREDENTIAL = credentials.('GITHUB_CREDENTIAL')
+	GITHUB_CREDENTIAL = credentials('GITHUB_CREDENTIAL')
         DOCKER_HUB_CREDENTIAL = credentials('DOCKER_HUB_CREDENTIAL')
         DOCKER_IMAGE_NAME_SERVER = 'bnsdcr/nodejs_server'
 	DOCKER_IMAGE_NAME_DB = 'bnsdcr/postgresql_db'
