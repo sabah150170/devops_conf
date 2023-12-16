@@ -13,8 +13,12 @@ pipeline {
 
     stages {
 	stage('---> ${GITHUB_CREDENTIAL}') {
+		steps {
+		}
 	    }
 	stage('---> ${credentials("GITHUB_CREDENTIAL")}') {
+		steps {
+		}
 	    }
 	    
         stage('Checkout the code from Git') {
