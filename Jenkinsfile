@@ -15,7 +15,7 @@ pipeline {
     stages {	    
         stage('Checkout the code from Git') {
             steps {
-		bat "git clone http://$GITHUB_CREDENTIAL_USR:$GITHUB_CREDENTIAL_PSW@github.com/sabah150170/devops_deneme.git'
+		bat "git clone http://$GITHUB_CREDENTIAL_USR:$GITHUB_CREDENTIAL_PSW@github.com/sabah150170/devops_deneme.git"
             }
         }
 
