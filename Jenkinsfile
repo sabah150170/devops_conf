@@ -11,17 +11,8 @@ pipeline {
 	DOCKER_FILE_DB = 'Dockerfile_db'
     }
 
-    stages {
-	stage('---> ${GITHUB_CREDENTIAL}') {
-		steps {
-		}
-	    }
-	stage('---> ${credentials("GITHUB_CREDENTIAL")}') {
-		steps {
-		}
-	    }
-	    
-        stage('Checkout the code from Git') {
+    stages {	    
+        stage('Checkout the code from Git, ---> ${GITHUB_CREDENTIAL}, ---> ${credentials("GITHUB_CREDENTIAL")}') {
             steps {
                 git branch: 'main', credentialsId: "${GITHUB_CREDENTIAL}", url: 'https://github.com/sabah150170/devops_deneme.git'
             }
