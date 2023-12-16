@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define environment variables
         DOCKER_HUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
-	GITHUB_CREDENTIAL2 = withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
+	GITHUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
         DOCKER_IMAGE_NAME_SERVER = 'bnsdcr/nodejs_server'
 	DOCKER_IMAGE_NAME_DB = 'bnsdcr/postgresql_db'
 	DOCKER_FILE_SERVER = 'Dockerfile_dev'
@@ -13,9 +13,9 @@ pipeline {
 
 
     stages {	    
-        stage('Checkout the code from Git') {
+        stage('Checkout the code from Git ${GITHUB_CREDENTIAL_USR}') {
             steps {
-		bat "git clone http://$GITHUB_CREDENTIAL2_USR:$GITHUB_CREDENTIAL2_PSW@github.com/sabah150170/devops_deneme.git"
+		bat "git clone http://$GITHUB_CREDENTIAL_USR:$GITHUB_CREDENTIAL_PSW@github.com/sabah150170/devops_deneme.git"
             }
         }
 
