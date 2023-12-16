@@ -12,6 +12,11 @@ pipeline {
     }
 
     stages {
+	stage('---> ${GITHUB_CREDENTIAL}') {
+	    }
+	stage('---> ${credentials("GITHUB_CREDENTIAL")}') {
+	    }
+	    
         stage('Checkout the code from Git') {
             steps {
                 git branch: 'main', credentialsId: "${GITHUB_CREDENTIAL}", url: 'https://github.com/sabah150170/devops_deneme.git'
