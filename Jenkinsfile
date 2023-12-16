@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         // Define environment variables
-	GITHUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
         DOCKER_HUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
+	GITHUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
         DOCKER_IMAGE_NAME_SERVER = 'bnsdcr/nodejs_server'
 	DOCKER_IMAGE_NAME_DB = 'bnsdcr/postgresql_db'
 	DOCKER_FILE_SERVER = 'Dockerfile_dev'
