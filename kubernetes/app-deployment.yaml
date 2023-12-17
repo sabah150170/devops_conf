@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: nodejs-container
-        image: bnsdcr/nodejs_app:18
+        image: bnsdcr/nodejs_app:19
         ports:
         - containerPort: 9090
 
