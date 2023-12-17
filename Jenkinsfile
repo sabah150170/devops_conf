@@ -6,8 +6,8 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = "dockerhub"
         DOCKER_IMAGE_NAME_APP = "bnsdcr/nodejs_app"
     	DOCKER_IMAGE_NAME_DB = "bnsdcr/postgresql_db"
-    	DOCKER_PATH_APP = "DockerFileApp"
-    	DOCKER_PATH_DB = "DockerfFleDB"
+    	DOCKER_PATH_APP = "DockerFileApp/"
+    	DOCKER_PATH_DB = "DockerFileDB/"
     	DOCKER_IMAGE_TAG = "latest"
     	dockerImage1 = ''
     }
