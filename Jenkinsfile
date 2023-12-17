@@ -21,11 +21,9 @@ pipeline {
         
     
         stage('Build the Docker images') {
-            
             steps {
                 script {
                     dockerImage1 = docker.build('${DOCKER_IMAGE_NAME_APP}', '-f ' + '${DOCKERFILE_APP}' + ' .')
-                    customImage.push()
                 }
             }
         }
