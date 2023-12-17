@@ -6,8 +6,8 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = "dockerhub"
         DOCKER_IMAGE_NAME_APP = "bnsdcr/nodejs_app"
     	DOCKER_IMAGE_NAME_DB = "bnsdcr/postgresql_db"
-    	DOCKER_PATH_APP = "DockerFileApp/"
-    	DOCKER_PATH_DB = "DockerFileDB/"
+    	DOCKERFILE_APP = "Dockerfile_App"
+    	DOCKERFILE_DB = "Dockerfile_DB"
     	DOCKER_IMAGE_TAG = "latest"
     	dockerImage1 = ''
     }
@@ -23,17 +23,10 @@ pipeline {
         stage('Build the Docker images') {
             
             steps {
-                dir('${DOCKER_PATH_APP}'){
-                    script{
-                        dockerImage1 = docker.build("${DOCKER_IMAGE_NAME_APP}")
-                    }
+                script {
+                    dockerImage1 = docker.build('${DOCKER_IMAGE_NAME_APP}', '-f ' + '${DOCKERFILE_APP}' + ' .')
+                    customImage.push()
                 }
-                
-                //dir('${DOCKER_PATH_DB}'){
-                //    script{
-                //        dockerImage2 = docker.build("${DOCKER_IMAGE_NAME_DB}")
-                //    }
-                //}
             }
         }
         
