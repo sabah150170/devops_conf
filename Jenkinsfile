@@ -39,6 +39,8 @@ pipeline {
                 }
             }
         }
-        
+
+        stage('Update Manifest') {
+            build job: 'updatemanifest' parameters: [string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)]
     }
 }
