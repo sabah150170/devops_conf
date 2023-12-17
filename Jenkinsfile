@@ -24,6 +24,7 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t ${DOCKER_IMAGE_NAME_APP} -f ${DOCKERFILE_APP} . "
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_DB} -f ${DOCKERFILE_DB} . "
                 }
             }
         }
@@ -33,7 +34,7 @@ pipeline {
                 script {
                     docker.withRegistry( '', DOCKER_HUB_CREDENTIALS) {
                         docker.image("${DOCKER_IMAGE_NAME_APP}").push()
-
+                        docker.image("${DOCKER_IMAGE_NAME_DB}").push()
                     }
                 }
             }
