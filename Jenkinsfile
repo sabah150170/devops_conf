@@ -8,6 +8,7 @@ pipeline {
     	DOCKER_IMAGE_NAME_DB = "bnsdcr/postgresql_db"
     	DOCKERFILE_APP = "Dockerfile_App"
     	DOCKERFILE_DB = "Dockerfile_DB"
+        MANIFEST_FILE = "kubernetes/app-deployment.yaml"
     	DOCKER_IMAGE_TAG = "latest"
     	dockerImage1 = ''
     }
@@ -45,7 +46,10 @@ pipeline {
             steps {
                 git credentialsId: 'github', url: 'https://github.com/sabah150170/devops_conf.git', branch: 'main'
                 script {
-                    sh "cat kubernetes/app-deployment.yaml "
+                    sh "sed -i 's+bnsdcr/nodejs_app.*+bnsdcr/nodejs_app:${env.BUILD_NUMBER}+g' '${MANIFEST_FILE}'"
+                    sh "git add ."
+                    sh "git commit -m 'update manifest'"
+                    sh "cat ${MANIFEST_FILE}"
                 }
             }
         }
