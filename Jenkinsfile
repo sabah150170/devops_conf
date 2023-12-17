@@ -2,15 +2,12 @@ pipeline {
     agent any
     
     environment {
-    // Define environment variables
         DOCKER_HUB_CREDENTIALS = "dockerhub"
         DOCKER_IMAGE_NAME_APP = "bnsdcr/nodejs_app"
     	DOCKER_IMAGE_NAME_DB = "bnsdcr/postgresql_db"
     	DOCKERFILE_APP = "Dockerfile_App"
     	DOCKERFILE_DB = "Dockerfile_DB"
         MANIFEST_FILE = "kubernetes/app-deployment.yaml"
-    	DOCKER_IMAGE_TAG = "latest"
-    	dockerImage1 = ''
     }
    
     stages {
@@ -20,7 +17,6 @@ pipeline {
             }
         }
         
-     /*
         stage('Build the Docker images') {
             steps {
                 script {
@@ -40,7 +36,6 @@ pipeline {
                 }
             }
         }
-        */
 
         stage("Checkout Manifest code from Git") {
             steps {
@@ -49,7 +44,6 @@ pipeline {
         }
 
         stage('Update Manifest') {
-            //build job: 'updatemanifest' parameters: [string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)]
             steps {
                 script {
                   catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
