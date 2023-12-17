@@ -12,7 +12,7 @@ pipeline {
     	DOCKER_IMAGE_TAG = "latest"
     	dockerImage1 = ''
     }
-    /*
+   
     stages {
         stage("Checkout the code from Git") {
             steps {
@@ -20,7 +20,7 @@ pipeline {
             }
         }
         
-    
+     /*
         stage('Build the Docker images') {
             steps {
                 script {
