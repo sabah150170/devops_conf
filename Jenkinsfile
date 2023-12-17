@@ -23,7 +23,7 @@ pipeline {
         stage('Build the Docker images') {
             steps {
                 script {
-                    dockerImage1 = docker.build('${DOCKER_IMAGE_NAME_APP}', '-f ' + '${DOCKERFILE_APP}' + ' .')
+                    sh "docker build -t ${DOCKER_IMAGE_NAME_APP} -f ${DOCKERFILE_APP} . "
                 }
             }
         }
@@ -32,7 +32,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry( '', DOCKER_HUB_CREDENTIALS) {
-                        dockerImage1.push()
+                        docker.image("${DOCKER_IMAGE_NAME_APP}").push()
+
                     }
                 }
             }
