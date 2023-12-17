@@ -44,12 +44,18 @@ pipeline {
         stage('Update Manifest') {
             //build job: 'updatemanifest' parameters: [string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)]
             steps {
-                git credentialsId: 'github', url: 'https://github.com/sabah150170/devops_conf.git', branch: 'main'
                 script {
-                    sh "sed -i 's+bnsdcr/nodejs_app.*+bnsdcr/nodejs_app:${env.BUILD_NUMBER}+g' '${MANIFEST_FILE}'"
-                    sh "git add ."
-                    sh "git commit -m 'update manifest'"
-                    sh "cat ${MANIFEST_FILE}"
+                  catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')
+                        sh "git config user.email busenur.sabah@hotmail.com"
+                        sh "git config user.name sabah150170"
+                        sh "sed -i 's+bnsdcr/nodejs_app.*+bnsdcr/nodejs_app:${env.BUILD_NUMBER}+g' '${MANIFEST_FILE}'"
+                        sh "git add ."
+                        sh "git commit -m 'update manifest'"
+                        sh "git push https://${GIT_USERNAME}:${encodedPassword}@github.com/${GIT_USERNAME}/devops_conf.git"
+                    }
+                  }
                 }
             }
         }
