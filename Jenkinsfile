@@ -1,63 +1,51 @@
 pipeline {
     agent any
-
+    
     environment {
-        // Define environment variables
-        DOCKER_HUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
-	GITHUB_CREDENTIAL = withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIAL', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')])
-        DOCKER_IMAGE_NAME_SERVER = 'bnsdcr/nodejs_server'
-	DOCKER_IMAGE_NAME_DB = 'bnsdcr/postgresql_db'
-	DOCKER_FILE_SERVER = 'Dockerfile_dev'
-	DOCKER_FILE_DB = 'Dockerfile_db'
+    // Define environment variables
+        DOCKER_HUB_CREDENTIALS = "dockerhub"
+        DOCKER_IMAGE_NAME_APP = "bnsdcr/nodejs_app"
+    	DOCKER_IMAGE_NAME_DB = "bnsdcr/postgresql_db"
+    	DOCKER_PATH_APP = "DockerFileApp"
+    	DOCKER_PATH_DB = "DockerfFleDB"
+    	DOCKER_IMAGE_TAG = "latest"
+    	dockerImage1 = ''
     }
-
-
-    stages {	    
-        stage('Checkout the code from Git}') {
-           steps {
-		bat "git clone http://$GITHUB_CREDENTIAL_USR:$GITHUB_CREDENTIAL_PSW@github.com/sabah150170/devops_deneme.git"
-          }
-        }
-
-        stage('Build') {
+    
+    stages {
+        stage("Checkout the code from Git") {
             steps {
-                // Build the Docker image
-                script {
-			dockerImage_1 = docker.build("${DOCKER_IMAGE_NAME_SERVER}:1", "--file ${DOCKER_FILE_SERVER}")
-                    dockerImage_2 = docker.build("${DOCKER_IMAGE_NAME_DB}:1", "--file ${DOCKER_FILE_DB}")
-                }
+                git credentialsId: 'github', url: 'https://github.com/sabah150170/devops_deneme.git', branch: 'master'
             }
         }
-
-        stage('Push to Docker Hub') {
+        
+    
+        stage('Build the Docker images') {
+            
             steps {
-                // Log in to Docker Hub
+                dir('${DOCKER_PATH_APP}'){
+                    script{
+                        dockerImage1 = docker.build("${DOCKER_IMAGE_NAME_APP}")
+                    }
+                }
+                
+                //dir('${DOCKER_PATH_DB}'){
+                //    script{
+                //        dockerImage2 = docker.build("${DOCKER_IMAGE_NAME_DB}")
+                //    }
+                //}
+            }
+        }
+        
+        stage('Login and Push the Docker images') {
+            steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', "${DOCKER_HUB_CREDENTIAL}") {
-                        // Push the Docker image to Docker Hub
-                        dockerImage1.push("1")
-			dockerImage2.push("1")
+                    docker.withRegistry( '', DOCKER_HUB_CREDENTIALS) {
+                        dockerImage1.push()
                     }
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                // Add your deployment steps here
-                echo 'Deployment steps go here'
-            }
-        }
-    }
-
-    post {
-        success {
-            // Actions to be performed if the build is successful
-            echo 'Build and deployment successful!'
-        }
-        failure {
-            // Actions to be performed if the build fails
-            echo 'Build or deployment failed!'
-        }
+        
     }
 }
