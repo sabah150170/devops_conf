@@ -41,6 +41,13 @@ pipeline {
         }
 
         stage('Update Manifest') {
-            build job: 'updatemanifest' parameters: [string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)]
+            //build job: 'updatemanifest' parameters: [string(name: 'DOCKER_TAG', value: env.BUILD_NUMBER)]
+            steps {
+                git credentialsId: 'github', url: 'https://github.com/sabah150170/devops_conf.git', branch: 'main'
+                script {
+                    sh "cat kubernetes/app-deployment.yaml "
+                }
+            }
+        }
     }
 }
