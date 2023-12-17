@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry( '', DOCKER_HUB_CREDENTIALS) {
-                        docker.image("${DOCKER_IMAGE_NAME_APP}").push()
+                        docker.image("${DOCKER_IMAGE_NAME_APP}").push(${env.BUILD_NUMBER})
                         docker.image("${DOCKER_IMAGE_NAME_DB}").push()
                     }
                 }
